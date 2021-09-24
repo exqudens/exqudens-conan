@@ -19,7 +19,6 @@ class ConanConfiguration(ConanFile):
     options = {"type": ["interface", "static", "shared"]}
 
     def package(self):
-        self.copy("*")
         if (
             self.settings.arch == "x86"
             and self.settings.os == "Windows"
@@ -29,7 +28,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "interface"
         ):
-            self.copy(src="build/glm", pattern="*.*", dst="include")
+            self.copy(src="glm/glm", pattern="*.*", dst="include/glm")
         elif (
             self.settings.arch == "x86_64"
             and self.settings.os == "Windows"
@@ -39,7 +38,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "interface"
         ):
-            self.copy(src="build/glm", pattern="*.*", dst="include")
+            self.copy(src="glm/glm", pattern="*.*", dst="include/glm")
         else:
             raise ConanInvalidConfiguration(
                 "Unsupported"
@@ -51,6 +50,12 @@ class ConanConfiguration(ConanFile):
                 + " 'self.settings.build_type' = '" + str(self.settings.build_type) + "'"
                 + " 'self.options.type' = '" + str(self.options.type) + "'"
             )
+
+    def package_info(self):
+        if self.options.type == "interface":
+            self.cpp_info.libs = []
+        else:
+            self.cpp_info.libs = tools.collect_libs(self)
 
 
 if __name__ == "__main__":

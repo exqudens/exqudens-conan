@@ -19,7 +19,6 @@ class ConanConfiguration(ConanFile):
     options = {"type": ["interface", "static", "shared"]}
 
     def package(self):
-        self.copy("*")
         if (
             self.settings.arch == "x86"
             and self.settings.os == "Windows"
@@ -29,9 +28,9 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "shared"
         ):
-            self.copy(src="build/glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
-            self.copy(src="build/glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
-            self.copy(src="build/glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3.dll", dst="bin")
+            self.copy(src="glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
+            self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
+            self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3.dll", dst="bin")
         elif (
             self.settings.arch == "x86"
             and self.settings.os == "Windows"
@@ -41,8 +40,8 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "static"
         ):
-            self.copy(src="build/glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
-            self.copy(src="build/glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
+            self.copy(src="glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
+            self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
         elif (
             self.settings.arch == "x86_64"
             and self.settings.os == "Windows"
@@ -52,9 +51,9 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "shared"
         ):
-            self.copy(src="build/glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
-            self.copy(src="build/glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
-            self.copy(src="build/glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3.dll", dst="bin")
+            self.copy(src="glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
+            self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
+            self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3.dll", dst="bin")
         elif (
             self.settings.arch == "x86_64"
             and self.settings.os == "Windows"
@@ -64,8 +63,8 @@ class ConanConfiguration(ConanFile):
             and self.settings.build_type == "Release"
             and self.options.type == "static"
         ):
-            self.copy(src="build/glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
-            self.copy(src="build/glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
+            self.copy(src="glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
+            self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
         else:
             raise ConanInvalidConfiguration(
                 "Unsupported"
@@ -79,7 +78,10 @@ class ConanConfiguration(ConanFile):
             )
 
     def package_info(self):
-        self.cpp_info.libs = tools.collect_libs(self)
+        if self.options.type == "interface":
+            self.cpp_info.libs = []
+        else:
+            self.cpp_info.libs = tools.collect_libs(self)
 
 
 if __name__ == "__main__":

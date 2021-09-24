@@ -2,7 +2,7 @@
 
 set -e
 
-CONAN_PACKAGE_USER_CHANNEL=''
+CONAN_PACKAGE_USER_CHANNEL='' # 'test-user/test-channel'
 
 cp "conanfile.py" "build"
 pushd "build"
