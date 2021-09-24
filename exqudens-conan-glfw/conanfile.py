@@ -16,7 +16,7 @@ class ConanConfiguration(ConanFile):
         },
         "build_type": ["Release"]
     }
-    options = {"shared": [True, False]}
+    options = {"type": ["interface", "static", "shared"]}
 
     def package(self):
         self.copy("*")
@@ -27,7 +27,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.compiler.version == 16
             and self.settings.compiler.runtime == "MD"
             and self.settings.build_type == "Release"
-            and self.options.shared
+            and self.options.type == "shared"
         ):
             self.copy(src="build/glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
             self.copy(src="build/glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
@@ -39,7 +39,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.compiler.version == 16
             and self.settings.compiler.runtime == "MT"
             and self.settings.build_type == "Release"
-            and not self.options.shared
+            and self.options.type == "static"
         ):
             self.copy(src="build/glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
             self.copy(src="build/glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
@@ -50,7 +50,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.compiler.version == 16
             and self.settings.compiler.runtime == "MD"
             and self.settings.build_type == "Release"
-            and self.options.shared
+            and self.options.type == "shared"
         ):
             self.copy(src="build/glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
             self.copy(src="build/glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
@@ -62,7 +62,7 @@ class ConanConfiguration(ConanFile):
             and self.settings.compiler.version == 16
             and self.settings.compiler.runtime == "MT"
             and self.settings.build_type == "Release"
-            and not self.options.shared
+            and self.options.type == "static"
         ):
             self.copy(src="build/glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
             self.copy(src="build/glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
@@ -75,7 +75,7 @@ class ConanConfiguration(ConanFile):
                 + " 'self.settings.compiler.version' = '" + str(self.settings.compiler.version) + "'"
                 + " 'self.settings.compiler.runtime' = '" + str(self.settings.compiler.runtime) + "'"
                 + " 'self.settings.build_type' = '" + str(self.settings.build_type) + "'"
-                + " 'self.options.shared' = '" + str(self.options.shared) + "'"
+                + " 'self.options.type' = '" + str(self.options.type) + "'"
             )
 
     def package_info(self):
