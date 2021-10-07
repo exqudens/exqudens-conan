@@ -10,8 +10,7 @@ class ConanConfiguration(ConanFile):
         "os": ["Windows"],
         "compiler": {
             "Visual Studio": {
-                "version": ["16"],
-                "runtime": ["MD", "MT"]
+                "version": ["16"]
             }
         },
         "build_type": ["Release"]
@@ -24,7 +23,6 @@ class ConanConfiguration(ConanFile):
             and self.settings.os == "Windows"
             and self.settings.compiler == "Visual Studio"
             and self.settings.compiler.version == 16
-            and self.settings.compiler.runtime == "MD"
             and self.settings.build_type == "Release"
             and self.options.type == "interface"
         ):
@@ -34,7 +32,6 @@ class ConanConfiguration(ConanFile):
             and self.settings.os == "Windows"
             and self.settings.compiler == "Visual Studio"
             and self.settings.compiler.version == 16
-            and self.settings.compiler.runtime == "MD"
             and self.settings.build_type == "Release"
             and self.options.type == "interface"
         ):
@@ -46,7 +43,6 @@ class ConanConfiguration(ConanFile):
                 + " 'self.settings.os' = '" + str(self.settings.os) + "'"
                 + " 'self.settings.compiler' = '" + str(self.settings.compiler) + "'"
                 + " 'self.settings.compiler.version' = '" + str(self.settings.compiler.version) + "'"
-                + " 'self.settings.compiler.runtime' = '" + str(self.settings.compiler.runtime) + "'"
                 + " 'self.settings.build_type' = '" + str(self.settings.build_type) + "'"
                 + " 'self.options.type' = '" + str(self.options.type) + "'"
             )

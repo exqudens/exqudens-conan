@@ -11,7 +11,6 @@ conan export-pkg conanfile.py ${CONAN_PACKAGE_USER_CHANNEL} \
 -s os=Windows \
 -s compiler="Visual Studio" \
 -s compiler.version=16 \
--s compiler.runtime=MD \
 -s build_type=Release \
 -o type=interface
 conan export-pkg conanfile.py ${CONAN_PACKAGE_USER_CHANNEL} \
@@ -19,7 +18,6 @@ conan export-pkg conanfile.py ${CONAN_PACKAGE_USER_CHANNEL} \
 -s os=Windows \
 -s compiler="Visual Studio" \
 -s compiler.version=16 \
--s compiler.runtime=MD \
 -s build_type=Release \
 -o type=interface
 popd
