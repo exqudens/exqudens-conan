@@ -31,6 +31,7 @@ class ConanConfiguration(ConanFile):
             self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
             self.copy(src="1.2.182.0/Lib32", pattern="*.*", dst="lib")
             self.copy(src="1.2.182.0/Bin32", pattern="*.*", dst="bin")
+            self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
             self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
         elif (
             self.settings.arch == "x86"
@@ -44,6 +45,7 @@ class ConanConfiguration(ConanFile):
             self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
             self.copy(src="1.2.182.0/Lib32", pattern="*.*", dst="lib")
             self.copy(src="1.2.182.0/Bin32", pattern="*.*", dst="bin")
+            self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
             self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
         elif (
             self.settings.arch == "x86_64"
@@ -57,6 +59,7 @@ class ConanConfiguration(ConanFile):
             self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
             self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
             self.copy(src="1.2.182.0/Bin", pattern="*.*", dst="bin")
+            self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
             self.copy(src="1.2.182.0/Tools", pattern="*.*", dst="tools")
         elif (
             self.settings.arch == "x86_64"
@@ -70,6 +73,7 @@ class ConanConfiguration(ConanFile):
             self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
             self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
             self.copy(src="1.2.182.0/Bin", pattern="*.*", dst="bin")
+            self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
             self.copy(src="1.2.182.0/Tools", pattern="*.*", dst="tools")
         else:
             raise ConanInvalidConfiguration(
