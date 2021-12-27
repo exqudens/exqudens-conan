@@ -2,7 +2,8 @@
 
 set -e
 
-rm -rf ~/.conan/data/vulkan/
+rm -rf "build"
 ./download.sh
 ./export.sh
+rm -rf "build"
 echo 'BUILD_SUCCESSFUL' || (echo 'BUILD_FAILED' && false)
