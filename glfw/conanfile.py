@@ -49,11 +49,9 @@ class ConanConfiguration(ConanFile):
                 and self.settings.build_type == "Release"
                 and self.options.shared
             ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib32", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin32", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
+                self.copy(src="glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
+                self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
+                self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3.dll", dst="bin")
             elif (
                 self.settings.arch == "x86"
                 and self.settings.os == "Windows"
@@ -67,11 +65,8 @@ class ConanConfiguration(ConanFile):
                 and self.settings.build_type == "Release"
                 and not self.options.shared
             ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib32", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin32", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
+                self.copy(src="glfw-3.3.4.bin.WIN32/include", pattern="*.*", dst="include")
+                self.copy(src="glfw-3.3.4.bin.WIN32/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
             elif (
                 self.settings.arch == "x86_64"
                 and self.settings.os == "Windows"
@@ -85,11 +80,9 @@ class ConanConfiguration(ConanFile):
                 and self.settings.build_type == "Release"
                 and self.options.shared
             ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools", pattern="*.*", dst="tools")
+                self.copy(src="glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
+                self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3dll.lib", dst="lib")
+                self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3.dll", dst="bin")
             elif (
                 self.settings.arch == "x86_64"
                 and self.settings.os == "Windows"
@@ -103,11 +96,8 @@ class ConanConfiguration(ConanFile):
                 and self.settings.build_type == "Release"
                 and not self.options.shared
             ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools", pattern="*.*", dst="tools")
+                self.copy(src="glfw-3.3.4.bin.WIN64/include", pattern="*.*", dst="include")
+                self.copy(src="glfw-3.3.4.bin.WIN64/lib-vc2019", pattern="glfw3_mt.lib", dst="lib")
             else:
                 raise ConanInvalidConfiguration(
                     "Unsupported"
@@ -117,7 +107,7 @@ class ConanConfiguration(ConanFile):
                     + " 'self.settings.compiler.version' = '" + str(self.settings.compiler.version) + "'"
                     + " 'self.settings.compiler.runtime' = '" + str(self.settings.compiler.runtime) + "'"
                     + " 'self.settings.build_type' = '" + str(self.settings.build_type) + "'"
-                    + " 'self.options.shared' = '" + str(self.options.shared) + "'"
+                    + " 'self.options.type' = '" + str(self.options.shared) + "'"
                 )
         except Exception as e:
             error(format_exc())
@@ -125,7 +115,7 @@ class ConanConfiguration(ConanFile):
 
     def package_info(self):
         try:
-            self.cpp_info.libs = ["vulkan-1.lib"]
+            self.cpp_info.libs = tools.collect_libs(self)
         except Exception as e:
             error(format_exc())
             raise e

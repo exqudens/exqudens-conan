@@ -1,0 +1,101 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "hidden": true,
+      "cacheVariables": {
+        "PRESET_NAME": {
+          "type": "STRING",
+          "value": "${presetName}"
+        }
+      }
+    },
+    {
+      "name": "windows",
+      "hidden": true,
+      "cmakeExecutable": "cmake.exe"
+    },
+    {
+      "name": "linux",
+      "hidden": true,
+      "cmakeExecutable": "cmake"
+    },
+    {
+      "name": "ninja",
+      "hidden": true,
+      "generator": "Ninja"
+    },
+    
+    {
+      "name": "windows.ninja",
+      "inherits": [ "default", "windows", "ninja" ],
+      "binaryDir": "${sourceDir}/build",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+
+    {
+      "name": "linux.ninja",
+      "inherits": [ "default", "linux", "ninja" ],
+      "binaryDir": "${sourceDir}/build",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "hidden": true
+    },
+
+    {
+      "name": "windows.ninja",
+      "configurePreset": "windows.ninja",
+      "inherits": [ "default" ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows.ninja.x86_64-vs-16",
+      "configurePreset": "windows.ninja",
+      "inherits": [ "default" ],
+      "targets": [
+        "glm-conan-export-all",
+        "vulkan-conan-export-x86_64-vs-16-shared",
+        "vulkan-conan-export-x86_64-vs-16-static",
+        "glfw-conan-export-x86_64-vs-16-shared",
+        "glfw-conan-export-x86_64-vs-16-static"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+
+    {
+      "name": "linux.ninja",
+      "configurePreset": "linux.ninja",
+      "inherits": [ "default" ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    }
+  ]
+}
