@@ -12,7 +12,7 @@ class ConanConfiguration(ConanFile):
         "compiler": {
             "Visual Studio": {
                 "version": ["15", "16", "17"],
-                "runtime": ["MD", "MT"]
+                "runtime": ["MD"]
             }
         },
         "build_type": ["Release"]
@@ -40,11 +40,7 @@ class ConanConfiguration(ConanFile):
                 self.settings.arch == "x86"
                 and self.settings.os == "Windows"
                 and self.settings.compiler == "Visual Studio"
-                and (
-                        self.settings.compiler.version == 15
-                        or self.settings.compiler.version == 16
-                        or self.settings.compiler.version == 17
-                )
+                and self.settings.compiler.version == 16
                 and self.settings.compiler.runtime == "MD"
                 and self.settings.build_type == "Release"
                 and self.options.shared
@@ -55,53 +51,13 @@ class ConanConfiguration(ConanFile):
                 self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
                 self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
             elif (
-                self.settings.arch == "x86"
-                and self.settings.os == "Windows"
-                and self.settings.compiler == "Visual Studio"
-                and (
-                        self.settings.compiler.version == 15
-                        or self.settings.compiler.version == 16
-                        or self.settings.compiler.version == 17
-                )
-                and self.settings.compiler.runtime == "MT"
-                and self.settings.build_type == "Release"
-                and not self.options.shared
-            ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib32", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin32", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools32", pattern="*.*", dst="tools")
-            elif (
                 self.settings.arch == "x86_64"
                 and self.settings.os == "Windows"
                 and self.settings.compiler == "Visual Studio"
-                and (
-                        self.settings.compiler.version == 15
-                        or self.settings.compiler.version == 16
-                        or self.settings.compiler.version == 17
-                )
+                and self.settings.compiler.version == 16
                 and self.settings.compiler.runtime == "MD"
                 and self.settings.build_type == "Release"
                 and self.options.shared
-            ):
-                self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
-                self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
-                self.copy(src="1.2.182.0/Bin", pattern="*.*", dst="bin")
-                self.copy(src="1.2.182.0/Config", pattern="*.*", dst="config")
-                self.copy(src="1.2.182.0/Tools", pattern="*.*", dst="tools")
-            elif (
-                self.settings.arch == "x86_64"
-                and self.settings.os == "Windows"
-                and self.settings.compiler == "Visual Studio"
-                and (
-                        self.settings.compiler.version == 15
-                        or self.settings.compiler.version == 16
-                        or self.settings.compiler.version == 17
-                )
-                and self.settings.compiler.runtime == "MT"
-                and self.settings.build_type == "Release"
-                and not self.options.shared
             ):
                 self.copy(src="1.2.182.0/Include", pattern="*.*", dst="include")
                 self.copy(src="1.2.182.0/Lib", pattern="*.*", dst="lib")
@@ -125,6 +81,7 @@ class ConanConfiguration(ConanFile):
 
     def package_info(self):
         try:
+            self.cpp_info.names["cmake_find_package"] = "Vulkan"
             self.cpp_info.libs = ["vulkan-1.lib"]
         except Exception as e:
             error(format_exc())

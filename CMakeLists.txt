@@ -12,7 +12,7 @@ include("config.cmake")
 
 if(NOT EXISTS "${PROJECT_BINARY_DIR}/googletest-release-1.11.0.zip")
     file(DOWNLOAD
-        "https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip"
+        "file:///C:/install/googletest-release-1.11.0.zip" #"https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip"
         "${PROJECT_BINARY_DIR}/googletest-release-1.11.0.zip"
         EXPECTED_MD5 "52943a59cefce0ae0491d4d2412c120b"
     )
@@ -33,7 +33,7 @@ add_subdirectory("glm")
 add_subdirectory("vulkan")
 add_subdirectory("glfw")
 
-add_custom_target("gtest-cmake-install" ALL
+add_custom_target("gtest-cmake-install"
     COMMAND "${CMAKE_COMMAND}" --install "${PROJECT_BINARY_DIR}" --prefix "${CMAKE_INSTALL_PREFIX}/gtest"
     DEPENDS "gmock" "gmock_main" "gtest" "gtest_main"
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
@@ -54,7 +54,7 @@ set_conan_options(CONAN_OPTIONS
     "shared=${CONAN_BUILD_SHARED_LIBS}"
 )
 
-add_custom_target("gtest-conan-export"
+add_custom_target("gtest-conan-export" ALL
     COMMAND "${CONAN_COMMAND}"
             export-pkg
             --force

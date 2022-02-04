@@ -67,54 +67,58 @@ add_custom_target("${PROJECT_NAME}-conan-export-recipe"
 )
 
 foreach(arch "x86" "x86_64")
-    foreach(compiler "Visual Studio")
-        if("Visual Studio" STREQUAL "${compiler}")
-            foreach(compiler_version "15" "16" "17")
-                foreach(shared "True" "False")
-                    set(type "shared")
-                    set(compiler_runtime "MD")
-                    if("False" STREQUAL "${shared}")
-                        set(type "static")
-                        set(compiler_runtime "MT")
-                    endif()
-                    string(JOIN " AND " CONAN_REMOVE_QUERY
-                        "arch=${arch}"
-                        "os=Windows"
-                        "compiler=\"Visual Studio\""
-                        "compiler.version=${compiler_version}"
-                        "compiler.runtime=${compiler_runtime}"
-                        "build_type=Release"
-                        "shared=${shared}"
-                    )
-                    add_custom_target("${PROJECT_NAME}-conan-remove-${arch}-vs-${compiler_version}-${type}"
-                        COMMAND "${CONAN_COMMAND}" remove --force "${PROJECT_NAME}/${PROJECT_VERSION}@" --query "${CONAN_REMOVE_QUERY}"
-                        DEPENDS "${PROJECT_NAME}-conan-export-recipe"
-                        WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                        VERBATIM
-                    )
-                    set(CONAN_EXPORT_ARGS
-                        "-s" "arch=${arch}"
-                        "-s" "os=Windows"
-                        "-s" "compiler=Visual Studio"
-                        "-s" "compiler.version=${compiler_version}"
-                        "-s" "compiler.runtime=${compiler_runtime}"
-                        "-s" "build_type=Release"
-                        "-o" "shared=${shared}"
-                    )
-                    add_custom_target("${PROJECT_NAME}-conan-export-${arch}-vs-${compiler_version}-${type}"
-                        COMMAND "${CONAN_COMMAND}"
+    foreach(os "Windows")
+        foreach(compiler "Visual Studio")
+            foreach(build_type "Release")
+                foreach(shared "True")
+                    if("Visual Studio" STREQUAL "${compiler}")
+                        foreach(compiler_version "16")
+                            set(type "shared")
+                            set(compiler_runtime "MD")
+                            if("False" STREQUAL "${shared}")
+                                set(type "static")
+                                set(compiler_runtime "MT")
+                            endif()
+                            string(JOIN " AND " CONAN_REMOVE_QUERY
+                                "arch=${arch}"
+                                "os=Windows"
+                                "compiler=\"Visual Studio\""
+                                "compiler.version=${compiler_version}"
+                                "compiler.runtime=${compiler_runtime}"
+                                "build_type=Release"
+                                "shared=${shared}"
+                                )
+                            add_custom_target("${PROJECT_NAME}-conan-remove-${arch}-vs-${compiler_version}-${type}"
+                                COMMAND "${CONAN_COMMAND}" remove --force "${PROJECT_NAME}/${PROJECT_VERSION}@" --query "${CONAN_REMOVE_QUERY}"
+                                DEPENDS "${PROJECT_NAME}-conan-export-recipe"
+                                WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+                                VERBATIM
+                                )
+                            set(CONAN_EXPORT_ARGS
+                                "-s" "arch=${arch}"
+                                "-s" "os=Windows"
+                                "-s" "compiler=Visual Studio"
+                                "-s" "compiler.version=${compiler_version}"
+                                "-s" "compiler.runtime=${compiler_runtime}"
+                                "-s" "build_type=Release"
+                                "-o" "shared=${shared}"
+                                )
+                            add_custom_target("${PROJECT_NAME}-conan-export-${arch}-vs-${compiler_version}-${type}"
+                                COMMAND "${CONAN_COMMAND}"
                                 export-pkg
                                 "${PROJECT_BINARY_DIR}/build/conanfile.py"
                                 #${CONAN_PACKAGE_USER_CHANNEL}
                                 ${CONAN_EXPORT_ARGS}
-                        DEPENDS "${PROJECT_NAME}-conan-remove-${arch}-vs-${compiler_version}-${type}"
-                        WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                        VERBATIM
-                    )
-                    list(APPEND CONAN_EXPORT_ALL_DEPENDS "${PROJECT_NAME}-conan-export-${arch}-vs-${compiler_version}-${type}")
+                                DEPENDS "${PROJECT_NAME}-conan-remove-${arch}-vs-${compiler_version}-${type}"
+                                WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+                                VERBATIM
+                                )
+                            list(APPEND CONAN_EXPORT_ALL_DEPENDS "${PROJECT_NAME}-conan-export-${arch}-vs-${compiler_version}-${type}")
+                        endforeach()
+                    endif()
                 endforeach()
             endforeach()
-        endif()
+        endforeach()
     endforeach()
 endforeach()
 
